@@ -3,11 +3,17 @@ html
 
 body
   height: 100%
-  width: 100%
+  width: 100
 
-  .body
-    height: 100%
-    width: 100%
+.body
+  height: 100%
+  width: 100%
+  position: absolute
+  left: 0px
+  transition: 0.5s ease-in-out
+
+.hamTrans
+  left: -300px
 
 header
   background-image: url("/assets/img/tent_compressed.jpg")
@@ -21,7 +27,7 @@ header
   height: 100%
 
 .nwrap
-  transition: background-color 0.5s
+  transition: all 0.3s ease
   min-width: 250px
   display: block
   height: 60px
