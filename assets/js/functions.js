@@ -8,6 +8,10 @@ $( document ).ready(function() {
 //Opaque Navigation toggle on scroll
 
   //finding the position from top of the anchor point
+//ONLY ON DESKTOP!
+var smallScreen = true;
+
+if ($(window).width() > 550){
 $(window).scroll(function(){
 var $scrollDistance = $(window).scrollTop();
 var $anchorPos = {
@@ -23,6 +27,10 @@ if ($scrollDistance >= $anchorPos.about) {
   $('nav').removeClass('darkerNavItems')
 }
 })
+} else {
+  $('.nwrap').addClass('opaqueNav')
+  $('nav').addClass('darkerNavItems')
+}
 
 //NavigationDesktop
 
