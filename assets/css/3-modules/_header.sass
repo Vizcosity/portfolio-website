@@ -45,6 +45,7 @@ header
 
 .logo
   font-family: 'Muli', sans-serif
+  font-weight: lighter
   font-size: 25px
   color: #bfbfc0
   margin-left: 25px
@@ -73,6 +74,7 @@ header
 .home_title
   font-family: 'Muli', sans-serif
   font-size: 100px
+  font-weight: lighter
   color: white
   text-shadow: 0px 0px 10px rgba(0,0,0,0.1)
   @media screen and (max-width: 670px)
@@ -82,6 +84,7 @@ header
 .home_tagline
   font-family: 'Muli', sans-serif
   font-size: 25px
+  font-weight: lighter
   color: rgba(255,255,255,0.71)
   text-shadow: 0px 0px 10px rgba(0,0,0,1)
 
@@ -110,11 +113,11 @@ header
 nav
   display: inline-block
   float: right
-  margin-right: 30px
+  margin-right: 10px
   margin-top: 7px
   font-family: 'Open Sans', sans-serif
   font-size: 25px
-  font-weight: lighter
+  font-weight: 300
   @media screen and (max-width: 550px)
     display: none
 
@@ -123,7 +126,7 @@ nav
     -webkit-transition-timing-function: ease
     transition-timing-function: ease
     color: #bfbfc0
-    margin-left: 20px
+    margin-right: 20px
     position: relative
     text-decoration: none
 
@@ -137,16 +140,20 @@ nav
       bottom: -16px
       background-color: #7da7d9
       transform: scaleX(0)
+      -webkit-transform: scaleX(0)
       transition: all 0.3s ease-in-out 0s
+      -webkit-transition: all 0.3s ease-in-out 0s
 
     &:hover
       -webkit-transition-timing-function: ease
       transition-timing-function: ease
+      -webkit-transition-duration: 500ms
       transition-duration: 500ms
       color: white
 
     &:hover:before
       visibility: visible
+      -webkit-transform: scaleX(1)
       transform: scaleX(1)
 
 
