@@ -26,7 +26,21 @@ if ($scrollDistance >= $anchorPos.about) {
 }
 })
 
+var thanks = ['#iLoveYou','#iLoveYou2'];
 
+$(thanks[0]).hide()
+//coffeeButton easter-egg
+  $('.coffeeButton').mouseenter(function(){
+    $('.coffeeIcon').fadeOut(100)
+    $(thanks[0]).delay(150).fadeIn(150)
+//      $('#innerCoffeeButton').append('<p id="iLoveYou" class="coffeeGratitude">i love you</p>')
+
+})
+
+$('.coffeeButton').mouseleave(function(){
+    $('.coffeeIcon').delay(350).fadeIn(300)
+    $(thanks[0]).fadeOut(150)
+})
 //NavigationDesktop
 
 $('a[href*=#]').on('click', function(e){
@@ -54,5 +68,6 @@ $('.downNavArrow').on('click',function(e){
 
   ga('create', 'UA-78703723-1', 'auto');
   ga('send', 'pageview');
+//end of desktop Navigation
 
 });
