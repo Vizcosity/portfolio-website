@@ -1,28 +1,10 @@
 $( document ).ready(function() {
 //hamburger menu [MOBILE]
-var toggle = 5;
   $('button').click(function(){
     $(this).toggleClass('is-active')
-  //  $('.body').toggleClass('hamTrans')
+   $('.body').toggleClass('hamTrans')
+   $('.nwrap').toggleClass('pushNav')
 
-  if (toggle === 5) {
-//push content away
-    $('.body').velocity({left: '-300px'},{
-    duration: 500,
-    ease: 'ease-in-out'});
-
-    toggle = 4;
-
-  } else {
-    $('.body').velocity({left: '0px'},{
-      duration: 500,
-      ease: 'ease-in-out'
-    });
-
-    toggle = 5;
-  }
-
-  //endclick
   });
 
 //Opaque Navigation toggle on scroll

@@ -1,0 +1,83 @@
+.nwrap
+  right: 0
+  left: 0
+  transition: all 0.5s ease-in-out
+  min-width: 250px
+  display: block
+  height: 60px
+  width: 100%
+  position: fixed
+  z-index: 1
+  transform: none
+
+.opaqueNav
+  background-color: white
+  box-shadow: 0px 0px 5px rgba(0,0,0,0.35)
+  color: black
+
+nav
+  display: inline-block
+  float: right
+  margin-right: 10px
+  margin-top: 7px
+  font-family: 'Open Sans', sans-serif
+  font-size: 25px
+  font-weight: 300
+  @media screen and (max-width: 550px)
+    display: none
+
+  a
+    transition-duration: 500ms
+    -webkit-transition-timing-function: ease
+    transition-timing-function: ease
+    color: #bfbfc0
+    margin-right: 20px
+    position: relative
+    text-decoration: none
+
+    &:before
+      content: " "
+      position: absolute
+      width: 100%
+      visibility: hidden
+      height: 3px
+      left: 0
+      bottom: -16px
+      background-color: #7da7d9
+      transform: scaleX(0)
+      -webkit-transform: scaleX(0)
+      transition: all 0.3s ease-in-out 0s
+      -webkit-transition: all 0.3s ease-in-out 0s
+
+    &:hover
+      -webkit-transition-timing-function: ease
+      transition-timing-function: ease
+      -webkit-transition-duration: 500ms
+      transition-duration: 500ms
+      color: white
+
+    &:hover:before
+      visibility: visible
+      -webkit-transform: scaleX(1)
+      transform: scaleX(1)
+
+
+
+.darkerNavItems
+  a
+    &:hover
+      -webkit-transition-timing-function: ease
+      transition-timing-function: ease
+      transition-duration: 500ms
+      color: black
+
+.mobNav
+  display: inline-block
+  float: right
+  margin-right: 30px
+  margin-top: 20px
+  @media screen and (min-width: 550px)
+    display: none
+
+.pushNav
+  transform: translateX(-300px)
