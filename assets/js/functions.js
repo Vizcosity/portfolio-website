@@ -1,5 +1,13 @@
 $( document ).ready(function() {
 
+//deferred image load
+
+$('.defer').each(function(){
+  var  $imgUrl = $(this).attr('data-src');
+  //replacing the image
+  $(this).css('background-image',"url('" + $imgUrl + "')")
+})
+
 function mobMenuSlide(){
   $('button').toggleClass('is-active')
  $('.body').toggleClass('hamTrans')
