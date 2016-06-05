@@ -1,11 +1,21 @@
 $( document ).ready(function() {
+
+function mobMenuSlide(){
+  $('button').toggleClass('is-active')
+ $('.body').toggleClass('hamTrans')
+ $('.nwrap').toggleClass('pushNav')
+
+}
 //hamburger menu [MOBILE]
   $('button').click(function(){
-    $(this).toggleClass('is-active')
-   $('.body').toggleClass('hamTrans')
-   $('.nwrap').toggleClass('pushNav')
-
+    mobMenuSlide()
   });
+
+  $('.mobNavClick').click(function(){
+       $('button').removeClass('is-active')
+       $('.body').removeClass('hamTrans')
+       $('.nwrap').removeClass('pushNav')
+    })
 
 //Opaque Navigation toggle on scroll
 
@@ -71,5 +81,8 @@ $('.downNavArrow').on('click',function(e){
   ga('create', 'UA-78703723-1', 'auto');
   ga('send', 'pageview');
 //end of desktop Navigation
+
+//mobile navigation close hamburger menu
+
 
 });
