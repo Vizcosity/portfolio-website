@@ -64,14 +64,14 @@ $('a[href*=#]').on('click', function(e){
     var dest = 'a[name=' + href.replace('#','') + ']';
     $(dest).velocity('scroll',{
       duration: 'slow',
-      ease: 'ease-in-out'
+      ease: 'easeInOutQuint'
     })
 });
 
 $('.downNavArrow').on('click',function(e){
   $('a[name=about]').velocity('scroll',{
     duration: 'slow',
-    ease: 'ease-in-out'
+    ease: 'easeInOutQuint'
   })
 })
 
