@@ -11,6 +11,7 @@ function mobMenuSlide(){
   $('button').toggleClass('is-active')
  $('.body').toggleClass('hamTrans')
  $('.nwrap').toggleClass('pushNav')
+ $('.BlackFade-main').toggleClass('BlackFade-active')
 
 }
 //hamburger menu [MOBILE]
