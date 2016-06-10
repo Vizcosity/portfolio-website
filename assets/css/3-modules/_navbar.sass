@@ -1,7 +1,6 @@
 .nwrap
   right: 0
   left: 0
-  transition: all 0.5s ease-in-out
   min-width: 250px
   display: block
   height: 60px
@@ -9,6 +8,16 @@
   position: fixed
   z-index: 1
   transform: none
+  -webkit-transition: all 800ms cubic-bezier(0.800, 0, 0.200, 1)
+  -webkit-transition: all 800ms cubic-bezier(0.800, -0.165, 0.200, 1.195)
+  -moz-transition: all 800ms cubic-bezier(0.800, -0.165, 0.200, 1.195)
+  -o-transition: all 800ms cubic-bezier(0.800, -0.165, 0.200, 1.195)
+  transition: all 800ms cubic-bezier(0.800, -0.165, 0.200, 1.195)
+  -webkit-transition-timing-function: cubic-bezier(0.800, 0, 0.200, 1)
+  -webkit-transition-timing-function: cubic-bezier(0.800, -0.165, 0.200, 1.195)
+  -moz-transition-timing-function: cubic-bezier(0.800, -0.165, 0.200, 1.195)
+  -o-transition-timing-function: cubic-bezier(0.800, -0.165, 0.200, 1.195)
+  transition-timing-function: cubic-bezier(0.800, -0.165, 0.200, 1.195)
 
 .mobNav::selection
   background: none
