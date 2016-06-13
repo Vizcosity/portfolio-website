@@ -1,11 +1,33 @@
 $( document ).ready(function() {
+//hide overlay
+  $('.hireOverlay').hide()
 //removing media from tweetembed
   $('.twitterFeed').on('DOMSubtreeModified propertychange','#twitter-widget-0', function(){
     $('.twitter-timeline').contents().find('.timeline-Tweet-media').css('display','none')
     $('.twitter-block').css('height','100%')
 
   });
-//deferred image load
+//hire overlay on click
+  var fbutton = $('.freelanceButton');
+
+  fbutton.click(function(){
+    $('.hireOverlay').fadeIn('slow')
+    $('.hireOverlay').css('display','flex')
+    $('.hireOverlay').addClass('hireOverlay-active')
+    //removing scroll
+    $('body').addClass('hideScrollbar')
+  });
+
+  //removing overlay on click
+  $('.hireOverlay').click(function(){
+    $(this).fadeOut('slow')
+    $('body').removeClass('hideScrollbar')
+  });
+
+  $('.exitButton').click(function(){
+    $('.hireOverlay').fadeOut('slow')
+    $('body').removeClass('hideScrollbar')
+  });
 
 function mobMenuSlide(){
   $('button').toggleClass('is-active')
