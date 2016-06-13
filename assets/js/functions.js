@@ -24,6 +24,7 @@ function mobMenuSlide(){
        $('.body').removeClass('hamTrans')
        $('.nwrap').removeClass('pushNav')
     })
+//messing with the skills section circles
 
 //Opaque Navigation toggle on scroll
 
@@ -55,9 +56,7 @@ $(thanks[0]).hide()
     $(thanks[0]).delay(150).fadeIn(150)
 //      $('#innerCoffeeButton').append('<p id="iLoveYou" class="coffeeGratitude">i love you</p>')
 
-})
-
-$('.coffeeButton').mouseleave(function(){
+}).mouseleave(function(){
     $('.coffeeIcon').delay(350).fadeIn(300)
     $(thanks[0]).fadeOut(150)
 })
