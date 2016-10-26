@@ -60,26 +60,27 @@ var $anchorPos = {
   home: $("a[name=home]").offset().top
 }
   //setting the opaque nav classes:
-if ($scrollDistance >= $anchorPos.about) {
+if ($scrollDistance >= $anchorPos.about - 60) {
   $('.nwrap').addClass('opaqueNav')
   $('nav').addClass('darkerNavItems')
 } else {
   $('.nwrap').removeClass('opaqueNav')
   $('nav').removeClass('darkerNavItems')
 }
-})
+}) // End of on scroll function.
 
-var thanks = ['#iLoveYou','#iLoveYou2'];
+var thanks = ['#iLoveYou','#coffeeIconId'];
 
 $(thanks[0]).hide()
 //coffeeButton easter-egg
   $('.coffeeButton').mouseenter(function(){
-    $('.coffeeIcon').fadeOut(100)
-    $(thanks[0]).delay(150).fadeIn(150)
+    $(thanks[1]).fadeOut(100)
+    if ( $(thanks[1]).css('display') === 'none') {
+    $(thanks[0]).delay(150).fadeIn(150) }
 //      $('#innerCoffeeButton').append('<p id="iLoveYou" class="coffeeGratitude">i love you</p>')
 
 }).mouseleave(function(){
-    $('.coffeeIcon').delay(350).fadeIn(300)
+    $(thanks[1]).delay(350).fadeIn(300)
     $(thanks[0]).fadeOut(150)
 })
 //NavigationDesktop
@@ -100,7 +101,99 @@ $('.downNavArrow').on('click',function(e){
     duration: 'slow',
     ease: 'easeInOutQuint'
   })
-})
+});
+
+  var allowToShow = true;
+  // Implement expanding skills-portfolio circles.
+  $('.circlePlaceholder').on('click', function(){
+    //$(this).animate(fillOptions, 1000)
+    $(this).toggleClass('fillToScreen');
+    if (allowToShow) {
+      // $('.circlePlaceholder > svg, .circlePlaceholder > p').fadeOut('fast');
+      $(this).children().fadeOut('fast');
+      allowToShow = false;
+    } else {
+      // $('.circlePlaceholder > svg, .circlePlaceholder > p').fadeIn('fast');
+      allowToShow = true;
+    }
+  });
+
+
+  // Attempted new implementation with .hover() yay jQuery!
+  var paintBrushShown = true;
+  $('#graphicCircle').hover(function(){
+    if (paintBrushShown){
+      // The painBrush is on, hide it and show the expand button.
+      $('.paintBrush').fadeOut('medium', function(){
+        paintBrushShown = false;
+        if (!allowToShow) return;
+        $('#expandIcon-graphic').fadeIn('medium', function(){
+          // $('#expandIcon-graphic').addClass('expandIcon-enlarge');
+        });
+        $('#expandIcon-graphic').css('transform', 'scale(1.2,1.2)');
+
+      });
+    } else {
+      $('#expandIcon-graphic').css('transform', 'scale(1,1)');
+      $('#expandIcon-graphic').fadeOut('medium', function(){
+        paintBrushShown = true;
+        if (!allowToShow) return;
+        $('.paintBrush').fadeIn('medium');
+        // $('#expandIcon-graphic').removeClass('expandIcon-enlarge');
+      });
+    }
+  });
+
+  // Code section
+  var codeTextShown = true;
+  $('#codeCircle').hover(function(){
+    if (codeTextShown){
+      // The painBrush is on, hide it and show the expand button.
+      $('.skillsCodeHeader').fadeOut('medium', function(){
+        codeTextShown = false;
+        if (!allowToShow) return;
+        $('#expandIcon-code').fadeIn('medium', function(){
+        });
+        $('#expandIcon-code').css('transform', 'scale(1.2,1.2)');
+
+      });
+    } else {
+      $('#expandIcon-code').css('transform', 'scale(1,1)');
+      $('#expandIcon-code').fadeOut('medium', function(){
+        codeTextShown = true;
+        if (!allowToShow) return;
+        $('.skillsCodeHeader').fadeIn('medium');
+      });
+    }
+  });
+
+  // Video section
+  var videoIconShown = true;
+  $('#videoCircle').hover(function(){
+    if (videoIconShown){
+      // The painBrush is on, hide it and show the expand button.
+      $('.videoCameraIcon').fadeOut('medium', function(){
+        videoIconShown = false;
+        if (!allowToShow) return;
+        $('#expandIcon-video').fadeIn('medium', function(){
+        });
+        $('#expandIcon-video').css('transform', 'scale(1.2,1.2)');
+
+      });
+    } else {
+      $('#expandIcon-video').css('transform', 'scale(1,1)');
+      $('#expandIcon-video').fadeOut('medium', function(){
+        videoIconShown = true;
+        if (!allowToShow) return;
+        $('.videoCameraIcon').fadeIn('medium');
+      });
+    }
+  });
+
+}); // End of document ready.
+
+
+  // Google analytics.
 
   (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
   (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
@@ -109,9 +202,3 @@ $('.downNavArrow').on('click',function(e){
 
   ga('create', 'UA-78703723-1', 'auto');
   ga('send', 'pageview');
-//end of desktop Navigation
-
-//mobile navigation close hamburger menu
-
-
-});
