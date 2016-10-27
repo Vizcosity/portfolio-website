@@ -1,4 +1,13 @@
 $( document ).ready(function() {
+
+  // Enabling the ripple effect for the circular skill-content divs.
+  $(".rippler").rippler({
+    effectClass      :  'rippler-effect',
+    effectSize      :  16,     // Default size (width & height)
+    addElement      :  'a',   // e.g. 'svg'(feature)
+    duration        :  400
+  });
+
 //hide overlay
   $('.hireOverlay').hide()
 //removing media from tweetembed
@@ -107,15 +116,18 @@ $('.downNavArrow').on('click',function(e){
   // Implement expanding skills-portfolio circles.
   $('.circlePlaceholder').on('click', function(){
     //$(this).animate(fillOptions, 1000)
-    $(this).toggleClass('fillToScreen');
     if (allowToShow) {
       // $('.circlePlaceholder > svg, .circlePlaceholder > p').fadeOut('fast');
-      $(this).children().fadeOut('fast');
       allowToShow = false;
+      $(this).children().fadeOut('fast');
+      //$('.portfolio-interface').fadeIn('slow');
+      smoothIn('.portfolio-interface');
     } else {
       // $('.circlePlaceholder > svg, .circlePlaceholder > p').fadeIn('fast');
       allowToShow = true;
     }
+
+    $(this).toggleClass('fillToScreen');
   });
 
 
@@ -190,8 +202,40 @@ $('.downNavArrow').on('click',function(e){
     }
   });
 
+
+  // Displaying the Portfolio content.
+
+  // The whitewash overlay interface needs to be initiated for each button.
+  // The content depends on which button was pressed.
+
+
+
 }); // End of document ready.
 
+function smoothOut(element, callback){
+  var $element = $(element);
+
+  $element.css('opacity', '0');
+
+  $element.one("webkitTransitionEnd otransitionend oTransitionEnd msTransitionEnd transitionend", function() {
+        $(this).css('display', 'none');
+        if (callback) callback();
+  });
+}
+function smoothIn(element, callback) {
+  var $element = $(element);
+
+  $element.css('opacity', '0');
+
+  $element.css('display', 'block');
+  console.log($element.css('display'));
+
+  $element.css('opacity', '1');
+
+  $element.one("webkitTransitionEnd otransitionend oTransitionEnd msTransitionEnd transitionend", function() {
+        if (callback) callback();
+  });
+}
 
   // Google analytics.
 
