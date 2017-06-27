@@ -1,113 +1,24 @@
-.aboutBack
-  display: flex
-  background-image: url('http://source.unsplash.com/o85agQuK55E/1600x900')
-  background-position: center center
-  background-repeat: no-repeat
-  -webkit-background-size: cover
-  -moz-background-size: cover
-  -o-background-size: cover
-  background-size: cover
-  @media screen and (min-width: 981px)
-    height: 100%
-
-  @media screen and (max-width: 550px)
-    background-image: url("/assets/img/sunset_compressed_mobile.jpg")
-
-.ayayron
-
-  span
-    position: relative
-    display: inline-block
-    border-bottom: 1px dotted black
-
-.ayayron .ayayron > span
-  visibility: hidden
-  width: 120px
-  background-color: black
-  color: #fff
-  text-align: center
-  border-radius: 6px
-  padding: 5px
-  position: absolute
-  right: 105%
-  top: 20px
-  z-index: 1
-
-.ayayron:hover, ayayron > span
-  visibility: visible
-
-.imageContainer
-  margin: auto
-  display: flex
-  align-items: center
-  justify-content: center
-  flex-direction: column
-  padding: 2%
-  @media screen and (max-width: 793px)
-    margin-top: 5%
-    margin-bottom: 5%
-    flex-direction: row
-
-.faceTag
-  font-family: 'Open Sans', sans-serif
-  font-style: italic
-  font-weight: lighter
-  color: white
-  text-align: center
-  margin-top: 15px
-  @media screen and (max-width: 793px)
-    margin-left: 5%
-
-.facePic
-  width: 300px
-  height: 300px
-  border-radius: 100%
-  background-image: url('/assets/img/selfie.jpg')
-  background-position: center 20%
-  background-size: cover
-  border: 10px white solid
-  @media screen and (max-width: 411px)
-    width: 200px
-    height: 200px
-
-
-.aboutBox
-  background-color: white
-  width: 70%
-  border-radius: 10px 0px 0px 10px
-  box-shadow: 0px 0px 5px rgba(0,0,0,0.35)
-  margin-left: auto
-  @media screen and (max-width: 793px)
-    width: 95%
-    border-radius: 10px 10px 0px 0px
-    margin-left: auto
-    margin-right: auto
-    
-
-.aboutText
-  color: #5a5a5a
-  padding: 50px
-  display: inline-block
-  font-weight: 300
-  font-size: 14px
-
-  strong
-    font-family: Lusitana
-    font-size: 40px
-    font-weight: 300
-    color: #272727
-  @media screen and (max-width: 793px)
-    padding: 50px
-
-.about-contentWrap
-  display: flex
-  flex-direction: row
-  align-items: center
-  justify-content: center
-  margin: auto
+div.about-container
   width: 100%
-  box-sizing: border-box
-  @media screen and (max-width: 793px)
-    width: 100%
-    flex-direction: column
-    padding: 0px
+  height: 100%
+  visibility: hidden
+
+h2.about-title
+  font-family: "Open Sans", sans-serif
+  font-weight: 300
+  color: #202020
+  font-size: 40px
+  margin: 150px 0px 40px 0px
+
+p.about-body
+  color: #5a5a5a
+  font-family: "Open Sans", sans-serif
+  font-size: 20px
+  font-weight: 300
+  line-height: 30px
+  margin-top: 40px
+
+div.about-content-container
+  max-width: 650px
+  margin-left: auto
+  margin-right: auto
