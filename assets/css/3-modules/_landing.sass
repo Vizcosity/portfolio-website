@@ -2,29 +2,54 @@ div.landing-content-container
   display: flex
   flex-grow: 1
 
+div.landing-container
+  height: 100%
+  width: 100%
+  display: flex
+  flex-direction: column
+
 div.tag-button-container
-  width: 400px
+  width: 50%
   display: flex
   align-items: center
+  justify-content: center
   flex-direction: column
-  margin-left: 15%
 
 h1
-  margin-top: 20%
+  margin-top: -100px
   margin-bottom: 0
+  width: 400px
   font-size: 40px
   font-family: "Open Sans", sans-serif
   color: #2e2e2e
   font-weight: 300
+  text-align: center
 
 img.downArrow
   width: 45px
-  margin-top: auto
-  margin-bottom: auto
+  margin-top: 100px
+  opacity: 0.3
+  transition: 0.3s cubic-bezier(0.46, 0.03, 0.52, 0.96)
+  cursor: pointer
 
-img.profile-shot
+  &:hover
+    transform: scale(1.1)
+    opacity: 1
+
+// img.profile-shot
+//   position: absolute
+//   right: 0
+//   bottom: 0
+//   height: 100%
+//   z-index: -1
+
+div.profile-shot
+  background-image: url('/assets/img/profile_shot.png')
+  height: 100%
+  width: 50%
   position: absolute
   right: 0
   bottom: 0
-  height: 100%
+  background-size: cover
+  background-position: 50% center
   z-index: -1
