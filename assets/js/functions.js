@@ -13,6 +13,9 @@ $(document).ready(function(){
       loop: true
 		});
 
+  // Portfolio item content grid layout with jQuery MixItUp 3.
+  var grid = mixitup(".items-container");
+
   // Scroll revealing.
   window.sr = ScrollReveal();
 
@@ -28,6 +31,47 @@ $(document).ready(function(){
     // for (var i = 0; i < items.length; i++){
     //     render(new PortfolioItem(items[i]), 'div.items-container');
     // }
+
+  });
+
+  // Portfolio item hover effects.
+  $('.items-container').on('mouseover', '.portfolio-item', function(event){
+
+    // Set the title text to disappear.
+    $(this).children(".portfolio-item-overlay").children('p.portfolio-head-text').fadeOut("fast");
+
+    // Increase opacity of the overlay.
+      // Grab the rgba() val of the current overlay being used.
+      var rgbVal = $(this).children('.portfolio-item-overlay').css('background-color');
+
+      rgbVal = rgbVal.replace('0.5', '0.75');
+
+      $(this).children('.portfolio-item-overlay').css('background-color', rgbVal);
+
+    // Show the desc text and the expand icon.
+    $(this).children(".portfolio-item-overlay").bind("transitionend webkitTransitionEnd oTransitionEnd MSTransitionEnd", function(){
+      $(this).children(".portfolio-item-overlay").children("p.portfolio-desc-text").fadeIn('fast');
+      $(this).children(".portfolio-item-overlay").children("svg.portfolio-expand-icon").fadeIn('fast');
+    });
+
+  });
+
+  $('.items-container').on('mouseleave', '.portfolio-item', function(event){
+
+    // Set the title text to disappear.
+    $(this).children(".portfolio-item-overlay").children('p.portfolio-head-text').fadeIn("fast");
+
+    // Decrease opacity of the overlay.
+      // Grab the rgba() val of the current overlay being used.
+      var rgbVal = $(this).children('.portfolio-item-overlay').css('background-color');
+
+      rgbVal = rgbVal.replace('0.75', '0.5');
+
+      $(this).children('.portfolio-item-overlay').css('background-color', rgbVal);
+
+    // Hide the text and expand icon on mouse leave.
+    $(this).children(".portfolio-item-overlay").children("p.portfolio-desc-text").fadeOut('fast');
+    $(this).children(".portfolio-item-overlay").children("svg.portfolio-expand-icon").fadeOut('fast');
 
   });
 
