@@ -14,10 +14,13 @@ div.filter-container
 
 // Item styling!
 div.portfolio-item
+  display: flex
   width: 50%
   background-size: cover
   background-position: center center
   flex-grow: 1
+
+div.expandable
   cursor: pointer
 
   &:hover .portfolio-item-overlay
@@ -25,11 +28,49 @@ div.portfolio-item
 
   &:hover .portfolio-preview-content
     opacity: 1
-    transform: scale(1)
+    transform: translateX(-50%) translateY(-50%) scale(1)
 
   &:hover .portfolio-head-text
     transform: scale(0.8)
     opacity: 0
+
+div.portfolio-item-extended-content-container
+  position: absolute
+  width: 80%
+  background-color: white
+  top: 100%
+  padding: 50px
+  padding-left: 50px
+  border-radius: 4px
+  max-width: 760px
+
+p.portfolio-item-extended-text
+  font-family: "Open Sans", sans-serif
+  font-size: 15px
+  color: #787878
+
+.portfolio-item-extended-exit-button
+  stroke: rgba(255, 255, 255, 0.68)
+  position: absolute
+  top: 40px
+  height: 20px
+  width: 20px
+  right: 40px
+  transition: 0.3s ease-in-out
+  cursor: pointer
+  border: none
+  background: none
+  background-image: url('../../assets/img/1465835505_x.svg')
+  transition: 0.3s ease-in-out
+  opacity: 0.7
+
+  &:hover
+    opacity: 1
+
+
+  &:hover
+    stroke: rgba(255, 255, 255, 1)
+
 
 p.portfolio-desc-text
   font-family: "Open Sans", sans-serif
@@ -47,18 +88,21 @@ div.portfolio-preview-content
   flex-direction: column
   transition: 0.3s cubic-bezier(0.4, 0, 0.2, 1)
   opacity: 0
-  transform: scale(0.8)
+  transform: translateX(-50%) translateY(-50%) scale(0.8)
+  left: 50%
+  top: 50%
   max-width: 80%
 
 div.portfolio-item-overlay
   display: flex
   flex-direction: column
   background-color: rgba(60, 60, 60, 0.7)
-  height: 100%
+  // height: 100%
   justify-content: center
   align-items: center
   transition: 0.3s ease-in-out
   position: relative
+  flex-grow: 1
 
 p.portfolio-head-text, .portfolio-head-icon
   font-family: "Open Sans", sans-serif
@@ -76,6 +120,37 @@ div.items-container
   flex-grow: 1
   justify-content: space-between
   flex-wrap: wrap
+
+// ACKNOWLEDGEMENTS:
+// Lightbox expansion technique based off of:
+// http://usefulangle.com/post/38/animating-lightbox-with-css-javascript
+
+
+// Expansion class.
+div.portfolio-item-overlay-expand
+  position: fixed
+  transition: 0.6s cubic-bezier(0.65, 0.05, 0.36, 1)
+  animation: expandItem 1s forwards
+
+// Collapse class.
+div.portfolio-item-overlay-collapse
+  animation: collapseItem 1s cubic-bezier(0.65, 0.05, 0.36, 1)
+
+
+
+
+
+// Lightbox animations.
+@keyframes expandItem
+  50%
+    width: 100%
+    left: 0
+    height: 20%
+  100%
+    width: 100%
+    height: 100%
+    top: 0
+    left: 0
 
 
 a.filter-option
