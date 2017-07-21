@@ -221,6 +221,7 @@ function render(element, container){
 }
 
 // Prepares the collapse animation by adding the positions and sizes to the stylesheet.
+// Dynamic aniamtion.
 function prepareCollapseAnimation(attributes, element){
 
   var styles = '';
