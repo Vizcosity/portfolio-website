@@ -85,7 +85,7 @@ $(document).ready(function(){
 
         // First, we make the portfolio container scrollable.
         var $innerContent = $overlayElement.find(".portfolio-item-overlay")
-        $innerContent.css("overflow-y", "scroll");
+        // $innerContent.css("overflow-y", "scroll");
 
         // Make the Header Text / title fixed.
         // $innerContent.find(".portfolio-head-text").css({"position": "fixed", "z-index": 0});
