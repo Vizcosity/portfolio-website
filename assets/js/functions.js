@@ -70,11 +70,13 @@ $(document).ready(function(){
       // Display the element on the page.
       $overlayElement.show();
 
+      // Remove the expandable class to prevent double expansion.
+      $overlayElement.removeClass("expandable");
+      $overlayElement.addClass("expanded");
+
       // Add the overlay element CSS class.
       $overlayElement.addClass("portfolio-item-overlay-expand");
 
-      // Remove the expandable class to prevent double expansion.
-      $overlayElement.removeClass("expandable");
 
       // Stop scroll from occurring on the body.
       $('body').css('overflow', 'hidden');
@@ -83,31 +85,37 @@ $(document).ready(function(){
 
         // First, we make the portfolio container scrollable.
         var $innerContent = $overlayElement.find(".portfolio-item-overlay")
-        $innerContent.css("overflow", "scroll");
+        $innerContent.css("overflow-y", "scroll");
 
         // Make the Header Text / title fixed.
-        $innerContent.find(".portfolio-head-text").css({"position": "fixed", "z-index": 0});
+        // $innerContent.find(".portfolio-head-text").css({"position": "fixed", "z-index": 0});
 
         // We now inject the extended info container to the portfolio overlay div.
         $innerContent.append('<div class="portfolio-item-extended-content-container"><p class="portfolio-item-extended-text">blah blah blah some random text...</p></div>')
 
         // Inject the exit button.
-        $innerContent.append('<button class="portfolio-item-extended-exit-button" <svg stroke="#000000" viewBox="0 0 32 32" xmlns="http://www.w3.org/2000/svg"><line stroke-width="4" x1="2" x2="30" y1="2" y2="30"/><line stroke-width="4" x1="2" x2="30" y1="30" y2="2"/></svg></button>');
+        $innerContent.append('<button class="portfolio-item-extended-exit-button"> <svg style="display: none;" stroke="#000000" viewBox="0 0 32 32" xmlns="http://www.w3.org/2000/svg"><line stroke-width="4" x1="2" x2="30" y1="2" y2="30"/><line stroke-width="4" x1="2" x2="30" y1="30" y2="2"/></svg></button>');
 
-
+        // After appending the exit button, allow for a soft fadeIn.
+        $("button.portfolio-item-extended-exit-button > svg").fadeIn();
   });
 
   // Collapse functionality for portoflio item.
   $('body').on('click', '.portfolio-item-extended-exit-button', function(){
 
     // Fade out the button, and text content.
-    $('.portfolio-item-extended-exit-button').fadeOut();
+    $('button.portfolio-item-extended-exit-button > svg').fadeOut("fast");
+
     $(this).siblings('.portfolio-item-extended-content-container').fadeOut();
 
     // Set scrolling back on the body.
     $('body').css("overflow", "auto");
 
     var $item = $(this).parent().parent();
+
+    // Remove the expanded class so that background transitions back to normal.
+    $item.removeClass("expanded");
+
     $item.addClass("portfolio-item-overlay-collapse");
 
     $item.one('webkitAnimationEnd mozAnimationEnd oAnimationEnd oanimationend animationend', function(){
