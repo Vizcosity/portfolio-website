@@ -33,10 +33,8 @@ $(document).ready(function(){
   // Contentful and injects them into the page.
   fetchItemsJSON(spaceID, accessToken, function(items){
 
-    console.log(items);
-
     for (var i = 0; i < items.length; i++){
-        render(new PortfolioItem(items[i], i), 'div.items-container');
+        render(new PortfolioItem(items[i], items[i].id), 'div.items-container');
     }
 
   });
@@ -44,60 +42,28 @@ $(document).ready(function(){
   // Portfolio Item expand / collapse functionality.
   $('.items-container').on('click', '.expandable', function(){
 
-    // Duplicate the current element, and inject into page as a fixed pos overlay.
-      // We first create a jQuery element object and prepare it to be injected into the page.
-      // var overlayElement = $('<div class="portfolio-item">'+$(this).html()+'</div>');
-      var $overlayElement = $($(this)[0].outerHTML);
+    expandPortfolioItem($(this), ($expanded) => {
 
-      // Save the position + size attributes of the item as it is on the page.
-      var elementAttributes = $(this)[0].getBoundingClientRect();
+      // After expansion, add in the dynamic article content.
+      loadPortfolioArticle($expanded, () => {
 
-      // Save the attributes in the global variable, to be used later when collapsing.
-      // globalAttributes[$(this).data("id")] = elementAttributes;
+        // After we load the content, remove the 'waiting-for-portfolio-content'
+        // class, but wait at least half a second.
+        setTimeout(() => {
+          $expanded
+          .children('.portfolio-item-overlay')
+          .removeClass('waiting-for-portfolio-content');
+        }, 500);
 
-      prepareCollapseAnimation(elementAttributes, $(this));
-
-      // Add fixed positining before applying styles to overlay object.
-      elementAttributes.position = "fixed";
-      elementAttributes.display = "none";
-
-      // Prepare CSS for fixed positioning using above attributes.
-      $overlayElement.css(elementAttributes);
-
-      // Inject the element into the page.
-      $overlayElement = $overlayElement.appendTo("body");
-
-      // Display the element on the page.
-      $overlayElement.show();
-
-      // Remove the expandable class to prevent double expansion.
-      $overlayElement.removeClass("expandable");
-      $overlayElement.addClass("expanded");
-
-      // Add the overlay element CSS class.
-      $overlayElement.addClass("portfolio-item-overlay-expand");
+        // After we remove the waiting class, reveal all of the content.
+        revealPortfolioContent($expanded.children('.portfolio-item-overlay'));
 
 
-      // Stop scroll from occurring on the body.
-      $('body').css('overflow', 'hidden');
+      });
 
-      // Append the article info.
+    })
 
-        // First, we make the portfolio container scrollable.
-        var $innerContent = $overlayElement.find(".portfolio-item-overlay")
-        // $innerContent.css("overflow-y", "scroll");
 
-        // Make the Header Text / title fixed.
-        // $innerContent.find(".portfolio-head-text").css({"position": "fixed", "z-index": 0});
-
-        // We now inject the extended info container to the portfolio overlay div.
-        $innerContent.append('<div class="portfolio-item-extended-content-container"><p class="portfolio-item-extended-text">blah blah blah some random text...</p></div>')
-
-        // Inject the exit button.
-        $innerContent.append('<button class="portfolio-item-extended-exit-button"> <svg style="display: none;" stroke="#000000" viewBox="0 0 32 32" xmlns="http://www.w3.org/2000/svg"><line stroke-width="4" x1="2" x2="30" y1="2" y2="30"/><line stroke-width="4" x1="2" x2="30" y1="30" y2="2"/></svg></button>');
-
-        // After appending the exit button, allow for a soft fadeIn.
-        $("button.portfolio-item-extended-exit-button > svg").fadeIn();
   });
 
   // Collapse functionality for portoflio item.
@@ -156,6 +122,134 @@ $(document).ready(function(){
 
 });
 
+// Reveals article on scroll, as well as meta data related to the portfolio
+// item such as dates, tags and so forth.
+function revealPortfolioContent($element, callback){
+
+  // Enable scroll reveal on the loaded element.
+  // sr.reveal('.portfolio-item-extended-content-container');
+
+  // Push the header text upward and slot in the metadata.
+
+
+
+
+}
+
+// Loads a portfolio article and grabs renders to the element.
+function loadPortfolioArticle($element, callback){
+
+
+
+  // Portfolio item id.
+  var id = $element.data('id');
+
+  // Get the entry by id.
+  getEntryById(id, (data) => {
+
+    // If no article, return.
+    if (!data || !data.fields || !data.fields.article) return;
+
+    // Render it onto the page.
+    render(new Article(data.fields.article), $element.children('.portfolio-item-overlay'));
+
+    // Call callback.
+    if (callback) callback();
+
+  })
+
+}
+
+// Article object.
+function Article(md){
+
+  // Instantiate markdown parser.
+  var parseMarkdown = new showdown.Converter();
+
+  this.markdown = md;
+
+  this.markup = `<div class="portfolio-item-extended-content-container portfolio-item-article">` +
+                  parseMarkdown.makeHtml(md) +
+                `</div>`;
+
+}
+
+// Expands a passed portfolio item.
+function expandPortfolioItem($element, callback){
+  // Duplicate the current element, and inject into page as a fixed pos overlay.
+    // We first create a jQuery element object and prepare it to be injected into the page.
+    // var overlayElement = $('<div class="portfolio-item">'+$(this).html()+'</div>');
+    var $overlayElement = $($element[0].outerHTML);
+
+    // Save the position + size attributes of the item as it is on the page.
+    var elementAttributes = $element[0].getBoundingClientRect();
+
+    // Save the attributes in the global variable, to be used later when collapsing.
+    // globalAttributes[$(this).data("id")] = elementAttributes;
+
+    prepareCollapseAnimation(elementAttributes, $element);
+
+    // Add fixed positining before applying styles to overlay object.
+    elementAttributes.position = "fixed";
+    elementAttributes.display = "none";
+
+    // Prepare CSS for fixed positioning using above attributes.
+    $overlayElement.css(elementAttributes);
+
+    // Inject the element into the page.
+    $overlayElement = $overlayElement.appendTo("body");
+
+    // Display the element on the page.
+    $overlayElement.show();
+
+    // Remove the expandable class to prevent double expansion.
+    $overlayElement.removeClass("expandable");
+    $overlayElement.addClass("expanded");
+
+    // Add the overlay element CSS class.
+    $overlayElement.addClass("portfolio-item-overlay-expand");
+
+
+    // Stop scroll from occurring on the body.
+    $('body').css('overflow', 'hidden');
+
+    // Append the article info.
+
+      // First, we make the portfolio container scrollable.
+      var $innerContent = $overlayElement.find(".portfolio-item-overlay")
+      // $innerContent.css("overflow-y", "scroll");
+
+      // Make the Header Text / title fixed.
+      // $innerContent.find(".portfolio-head-text").css({"position": "fixed", "z-index": 0});
+      // Apply the 'waiting for content' class.
+      $innerContent.addClass('waiting-for-portfolio-content');
+
+      // Wait for the expand animation to finish, then call the parent callback.
+      $overlayElement.one('webkitAnimationEnd mozAnimationEnd oAnimationEnd oanimationend animationend', function(){
+
+        // Add the load spinner to indicate that content is being retrieved.
+        $innerContent.append(
+          `<div class="spinner">
+            <div class="bounce1"></div>
+            <div class="bounce2"></div>
+            <div class="bounce3"></div>
+          </div>`
+        );
+
+
+        // Inject the exit button.
+        $innerContent.append('<button class="portfolio-item-extended-exit-button"> <svg style="display: none;" stroke="#000000" viewBox="0 0 32 32" xmlns="http://www.w3.org/2000/svg"><line stroke-width="4" x1="2" x2="30" y1="2" y2="30"/><line stroke-width="4" x1="2" x2="30" y1="30" y2="2"/></svg></button>');
+
+        // After appending the exit button, allow for a soft fadeIn.
+        $("button.portfolio-item-extended-exit-button > svg").fadeIn();
+
+        // Call the parent callback if it exists with the overlay element.
+        if (callback) callback($(this));
+
+      });
+
+}
+
 // Portfolio Item object.
 function PortfolioItem(details, id){
 
@@ -167,7 +261,7 @@ function PortfolioItem(details, id){
   // Build the categories string.
   var cats = details.categories.join(" ");
 
-  this.markup = '<div data-id="'+(id+1)+'" class="mix '+cats+' portfolio-item expandable" style="background-image: url(&quot;'+(details.image.url ? details.image.url : "")+'&quot;)">';
+  this.markup = '<div data-id="'+(id)+'" class="mix '+cats+' portfolio-item expandable" style="background-image: url(&quot;'+(details.image.url ? details.image.url : "")+'&quot;)">';
   this.markup += '<div class="portfolio-item-logo"></div>';
   this.markup +=  '<div class="portfolio-item-overlay">';
   this.markup += '<p class="portfolio-head-text">'+(details.title ? details.title : "")+'</p>';
@@ -205,7 +299,8 @@ function fetchItemsJSON(spaceID, accessToken, callback){
         //   start: ,
         //   complet
         // }
-        categories: entries.items[i].fields.filterType
+        categories: entries.items[i].fields.filterType,
+        id: entries.items[i].sys.id
       });
     }
 
@@ -213,6 +308,21 @@ function fetchItemsJSON(spaceID, accessToken, callback){
     if (callback) return callback(output);
 
   });
+
+}
+
+// Get the entry by ID.
+function getEntryById(id, callback){
+
+  // Set up Contentful client.
+  var client = contentful.createClient({
+    space: spaceID,
+    accessToken: accessToken
+  });
+
+  client.getEntry(id)
+  .then(entry => callback(entry))
+  .catch(error => console.log(error));
 
 }
 
