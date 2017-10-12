@@ -29,6 +29,10 @@ h1
   text-align: center
   line-height: normal
 
+/* Target highlight for dynamic typing effect */
+.landing-tagline target
+  color: #7da7d9
+
 img.downArrow
   width: 45px
   margin-top: 100px
@@ -50,8 +54,9 @@ img.downArrow
 img.parallax-slider
 
   @media screen and (max-width: 800px)
-    opacity: 0.5
-    filter: blur(10px)
+    // opacity: 0.5
+    display: none
+    left: 0
     width: 100% !important
     max-width: 100% !important
 
@@ -75,6 +80,6 @@ div.profile-shot
 
   @media screen and (max-width: 800px)
     width: 100%
-    right: auto
+    // right: auto
     filter: blur(10px)
     opacity: 0.5
