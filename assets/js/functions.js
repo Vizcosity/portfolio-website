@@ -306,8 +306,6 @@ function loadAboutSection(spaceID, accessToken){
     render({markup: details.title}, $('h2#about-section-header'));
 
     // Parse the markdown from contentful.
-
-
     render({markup: parseMD(details.body)}, $('p.about-body'));
 
   });
@@ -403,7 +401,7 @@ function render(element, container){
 }
 
 // Stylesheet incrementer.
-var i = 0;
+var i = -1;
 
 
 // Prepares the collapse animation by adding the positions and sizes to the stylesheet.
@@ -430,7 +428,7 @@ function prepareCollapseAnimation(attributes, $element){
 		styles += '}';
 	styles += '}';
 
-  document.styleSheets[0].insertRule(styles, i++);
+  document.styleSheets[0].insertRule(styles, ++i);
 
 }
 
