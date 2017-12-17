@@ -1,18 +1,20 @@
-const spaceID = 'g791xagttdc8';
-const accessToken = 'e0588852d2401c2c2b331a719151d9f8feae5aca98cadfe968be9183c424fb48';
+const spaceID = '3m9n1x9kjcai';
+const accessToken = 'aad1d5340706429a1de4f8f50e338fc824eeb3fbcbe1bfc59050d31ffd954ddd';
 
 var categories = [];
 
 $(document).ready(function(){
 
   // Entry point.
+  // Create contentful client to be passed to delegated methods.
+  // Instance contentful client.
+  var client = contentful.createClient({
+    space: spaceID,
+    accessToken: accessToken
+  });
 
-  // Typing animations.
-  $(".landing-tagline > target").typed({
-			strings: ["websites.", "videos.", "software.","branding material.", "people happy.", "sleek design."],
-			typeSpeed: 75,
-      loop: true
-		});
+  // fetch all dynamic content.
+  loadContent(client);
 
   // Scroll revealing.
   window.sr = ScrollReveal();
@@ -26,14 +28,13 @@ $(document).ready(function(){
   // Contentful and injects them into the page.
   fetchItemsJSON(spaceID, accessToken, function(items){
 
+    console.log(items);
+
     for (var i = 0; i < items.length; i++){
         render(new PortfolioItem(items[i], items[i].id), 'div.items-container');
     }
 
   });
-
-  // Load the about section.
-  loadAboutSection(spaceID, accessToken);
 
   // Portfolio Item expand / collapse functionality.
   $('.items-container').on('click', '.expandable', function(){
@@ -132,6 +133,102 @@ function revealPortfolioContent($element, callback){
 
 
 
+}
+
+// Grabs content from contentful and embeds it into page.
+function loadContent(client){
+
+  // Load the landing photo.
+  loadLandingPhoto(client);
+
+  // Typing animations.
+  loadTypingAnimations(client);
+
+  // Load the site meta details (about section, site title, etc);
+  loadSiteMeta(client);
+
+  // Load in social media icons...
+  // loadSocials(client);
+
+}
+
+// Grab the landing photo and embed it onto page.
+function loadLandingPhoto(client){
+
+  // Grab the photo.
+  client.getEntries({'content_type': 'landingCover'})
+  .then(response => {
+
+    // Get URL only if valid request (an image has been submitted to contentful)
+    var imageURL = (
+      response.items && response.items[0] ?
+      response.items[0].fields.photo.fields.file.url : null
+    );
+
+    // Embed the image onto the page.
+    $('div#landingCover').parallax({
+      imageSrc: imageURL
+    });
+  })
+}
+
+// Grabs the typing text and embeds it onto the page.
+function loadTypingAnimations(client){
+
+  // Fetch the fixed text.
+  client.getEntries({'content_type': 'changingHeaderText'})
+  .then(response => {
+
+    // Get the first item.
+    var fixedText = (response.items && response.items[0] ? response.items[0].fields.fixedLine : null);
+    var dynamicText = (response.items && response.items[0] ? response.items[0].fields.rewritingText : null);
+
+    // Apply the fixed text.
+    $(".landing-tagline").html(`${(fixedText ? fixedText : "")} <target></target>`);
+
+    // Apply the dynamic text.
+    $(".landing-tagline > target").typed({
+        strings: (dynamicText ? dynamicText : [""]),
+        typeSpeed: 75,
+        loop: true
+      });
+  });
+
+
+}
+
+// Fetches site meta details such as about section, site title, etc.
+function loadSiteMeta(client){
+
+  // Fetch the about section.
+  // loadAboutSection(client);
+
+  client.getEntries({'content_type': 'siteMeta'})
+  .then(response => {
+
+    // Exit if couldn't load content from contentful.
+    if (!response.items || !response.items[0] || !response.items[0].fields)
+      return console.log("Could not load content. (No site settings / meta entry)");
+
+    // Save details to variable for convenience.
+    var details = response.items[0].fields;
+
+    // For all detail attributes, if it exists we will assign it.s
+    if (details.siteMark) $('p.logo').text(details.siteMark);
+    if (details.siteTitle) $('title').text(details.siteTitle);
+    if (details.siteDescription) $('meta[name=Description]').attr('content', details.siteDescription);
+    if (details.siteKeywords) $('meta[name=keywords]').attr('content', details.siteKeywords);
+    if (details.connectSectionTitle) $("h2#connect-link > a").text(details.connectTitle);
+    if (details.connectSectionLink) $("h2#connect-link > a").attr('href', details.connectSectionLink);
+    if (details.footerSignature) $('p.footer-copyright').text(details.footerSignature);
+
+    // Load the about section.
+    if (details.aboutHeader) render({markup: details.aboutHeader}, $('h2#about-section-header'));
+
+    // Parse the markdown from contentful.
+    if (details.aboutBody) render({markup: parseMD(details.aboutBody)}, $('p.about-body'));
+
+  });
 }
 
 // Loads a portfolio article and grabs renders to the element.
@@ -297,44 +394,6 @@ function PortfolioItem(details, id){
   this.attributes = details;
 }
 
-// Fetches the about section and loads it into the page.
-function loadAboutSection(spaceID, accessToken){
-
-  // Get the JSON info from contentful.
-  getAboutSection(spaceID, accessToken, (details) => {
-
-    render({markup: details.title}, $('h2#about-section-header'));
-
-    // Parse the markdown from contentful.
-    render({markup: parseMD(details.body)}, $('p.about-body'));
-
-  });
-
-}
-
-// Fetch the about section from contentful.
-function getAboutSection(spaceID, accessToken, callback){
-
-  // Instance contentful client.
-  var client = contentful.createClient({
-    space: spaceID,
-    accessToken: accessToken
-  });
-
-  // Fetch about section.
-  client.getEntries({
-    'content_type': 'about'
-  })
-  // Return the first entry.
-  .then(response => {
-    return callback({
-      title: response.items[0].fields.sectionHeader,
-      body: response.items[0].fields.sectionBody
-    });
-  })
-
-}
-
 // Grabbing the portfolio items from Contentful:
 function fetchItemsJSON(spaceID, accessToken, callback){
 
@@ -361,7 +420,7 @@ function fetchItemsJSON(spaceID, accessToken, callback){
         //   start: ,
         //   complet
         // }
-        categories: entries.items[i].fields.filterType,
+        categories: entries.items[i].fields.category,
         id: entries.items[i].sys.id
       });
     }
