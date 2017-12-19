@@ -244,6 +244,9 @@ function loadSiteMeta(client){
     // Parse the markdown from contentful.
     if (details.aboutBody) render({markup: parseMD(details.aboutBody)}, $('p.about-body'));
 
+    // Add the site favicon.
+    if (details.favicon) $('link[rel=icon]').attr('href', details.favicon.fields.file.url);
+
   });
 }
 
