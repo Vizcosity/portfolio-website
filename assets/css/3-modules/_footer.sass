@@ -29,8 +29,9 @@ footer
   align-items: center
   flex-direction: column
 
-svg.social-icon
-  fill: #959595
+.social-icon
+  /* Alter opacity instead of colour so we can support <IMG /> and SVGs. */
+  opacity: 0.5
   height: 30px
   width: 30px
   margin-left: 10px
@@ -39,7 +40,7 @@ svg.social-icon
   cursor: pointer
 
   &:hover
-    fill: #2d2d2d
+    opacity: 1
 
 p.footer-copyright
   margin: 0 0 20px 0

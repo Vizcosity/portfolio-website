@@ -28,8 +28,6 @@ $(document).ready(function(){
   // Contentful and injects them into the page.
   fetchItemsJSON(spaceID, accessToken, function(items){
 
-    console.log(items);
-
     for (var i = 0; i < items.length; i++){
         render(new PortfolioItem(items[i], items[i].id), 'div.items-container');
     }
@@ -147,8 +145,8 @@ function loadContent(client){
   // Load the site meta details (about section, site title, etc);
   loadSiteMeta(client);
 
-  // Load in social media icons...
-  // loadSocials(client);
+  // Load social links.
+  loadSocials(client);
 
 }
 
@@ -197,11 +195,29 @@ function loadTypingAnimations(client){
 
 }
 
+// Fetches social links and embeds them at the footer.
+function loadSocials(client){
+
+  client.getEntries({'content_type': 'socialLink'})
+  .then(response => {
+
+    response.items.forEach(item => {
+
+      $('footer > div.social-media-container').append(
+        `<a target="_blank" href="${item.fields.link}">
+          <img class="social-icon" src="${item.fields.icon.fields.file.url}"
+            alt="${item.fields.icon.fields.title}"
+          />
+        </a>`
+      )
+
+    });
+
+  });
+}
+
 // Fetches site meta details such as about section, site title, etc.
 function loadSiteMeta(client){
-
-  // Fetch the about section.
-  // loadAboutSection(client);
 
   client.getEntries({'content_type': 'siteMeta'})
   .then(response => {
@@ -218,7 +234,7 @@ function loadSiteMeta(client){
     if (details.siteTitle) $('title').text(details.siteTitle);
     if (details.siteDescription) $('meta[name=Description]').attr('content', details.siteDescription);
     if (details.siteKeywords) $('meta[name=keywords]').attr('content', details.siteKeywords);
-    if (details.connectSectionTitle) $("h2#connect-link > a").text(details.connectTitle);
+    if (details.connectSectionTitle) $("h2#connect-link > a").text(details.connectSectionTitle);
     if (details.connectSectionLink) $("h2#connect-link > a").attr('href', details.connectSectionLink);
     if (details.footerSignature) $('p.footer-copyright').text(details.footerSignature);
 
@@ -413,8 +429,13 @@ function fetchItemsJSON(spaceID, accessToken, callback){
         title: entries.items[i].fields.title,
         caption: entries.items[i].fields.caption,
         image: {
-          title: entries.items[i].fields.coverImage.fields.title,
-          url: "http:"+entries.items[i].fields.coverImage.fields.file.url
+          title:
+          (entries.items[i].fields.coverImage &&
+             entries.items[i].fields.coverImage.title ?
+             entries.items[i].fields.title : null),
+          url: (entries.items[i].fields.coverImage && entries.items[i].fields.coverImage.fields ?
+            "http:"+entries.items[i].fields.coverImage.fields.file.url :
+            null)
         },
         // date: {
         //   start: ,
